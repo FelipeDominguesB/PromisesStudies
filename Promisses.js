@@ -23,19 +23,10 @@ class Promisses{
         btnMath.addEventListener('click', () =>{
             this.DoMath(input1.value).then((value) => 
             {
-                this.DoOperation(value, input2.value).then((valorFinal) =>
-            {
-                resultado.value = valorFinal;
-            }).catch(() =>
-                {
-                    alert('Insira apenas números');
-                });
-    
-            }).catch(() =>
-                {
-                alert('Insira apenas números');
-                });  
+                this.DoOperation(value, input2.value);
+            });
         });
+            
     }
 
     ShowMessage()
@@ -50,14 +41,15 @@ class Promisses{
     {
         return new Promise((resolve, reject) =>{
             
-            if(!isNaN(value1))
-            {
-                resolve(value1);
-            }
-            else{
-                reject();
-            }
-
+            setTimeout(() => {
+                if(!isNaN(value1))
+                {
+                    resolve(value1);
+                }
+                else{
+                    reject();
+                }
+            }, 3000);
         });
     }
 
