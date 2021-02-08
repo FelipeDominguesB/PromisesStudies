@@ -38,22 +38,7 @@ class Promisses{
     }
 
 
-    ShowArray(files)
-    {
-        return new Promise((resolve, reject) =>{
-
-            files.forEach(element => {
-                let th = document.createElement('td');
-                th.style.display = 'block';
-                let imagem = document.createElement('video');
-                imagem.src = element;
-                imagem.className = 'mediaSize';
-                th.appendChild(imagem);
-                document.querySelector('tr').appendChild(th);
-            });
-            
-        });
-    }
+   
     ShowMessage()
     {
         return new Promise((resolve, reject) =>{
@@ -112,29 +97,49 @@ class Promisses{
         
                         switch(fileType)
                         {
+
+                            case 'data:image':
                             case 'data:video':
                                 
-                                fileArray.push(fileReader.result);
-
-                                console.log(photos.length);
-                                console.log(fileArray.length);
+                                fileArray.push({fileData: fileReader.result, fileType, id: i});
 
                                 if(photos.length == fileArray.length)
                                 {
                                     resolve(fileArray);
                                 }
+
                             break;
 
                             default: break;
+                            
                         }
                     }
                     fileReader.readAsDataURL(photos[i]);
                 }
             }
-
-            console.log('Sai da primeira promisse');
             
         });
        
+    }
+
+    ShowArray(files)
+    {
+       
+            
+            files.sort((element1, element2) =>{
+                return element1.id - element2.id;
+            });
+
+            files.forEach(element => {
+                let th = document.createElement('td');
+                th.style.display = 'block';
+                let imagem = document.createElement(element.fileType == 'data:image' ? 'img' : 'video');
+                imagem.src = element.fileData;
+                imagem.className = 'mediaSize';
+                th.appendChild(imagem);
+                document.querySelector('tr').appendChild(th);
+            });
+
+        
     }
 }
